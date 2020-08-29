@@ -50,6 +50,7 @@ namespace CalculatorServiceTest
             Assert.AreEqual(3, calculator.Divide(6, 2));
             Assert.AreEqual(0, calculator.Divide(0, 4));
             Assert.AreEqual(1.2, calculator.Divide(6.0, 5.0));
+            Assert.AreEqual(-1, calculator.Divide(5, 0));
         }
 
 
