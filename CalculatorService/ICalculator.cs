@@ -6,16 +6,9 @@ namespace CalculatorService
 {
     public interface ICalculator
     {
-        int Add(int x, int y);
-        double Add(double x, double y);
-
-        int Subtract(int x, int y);
-        double Subtract(double x, double y);
-
-        int Multiply(int x, int y);
-        double Multiply(double x, double y);
-
-        int Divide(int x, int y);
-        double Divide(double x, double y);
+        int Calculate(int x, int y);
+        double Calculate(double x, double y);
+        int OperationOrder { get; }
+        string OperationName { get; }
     }
 }

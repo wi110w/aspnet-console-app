@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleApp.Host
 {
@@ -19,7 +21,11 @@ namespace ConsoleApp.Host
             Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
             // The DI container
             .ConfigureLogging(l => l.AddConsole())
-            .ConfigureServices(s => s.AddSingleton<ICalculator, Calculator>())
+            .ConfigureServices(s => s
+            .AddSingleton<ICalculator, Additor>()
+            .AddSingleton<ICalculator, Subtractor>()
+            .AddSingleton<ICalculator, Multiplier>()
+            .AddSingleton<ICalculator, Divider>())
             .ConfigureServices(s => s.AddHostedService<ConsoleApp>())
             .Build();
 
@@ -28,13 +34,13 @@ namespace ConsoleApp.Host
 
     public class ConsoleApp: IHostedService
     {
-        readonly ICalculator mCalculator;
+        readonly IEnumerable<ICalculator> mCalculator;
         readonly ILogger<ConsoleApp> mLogger;
         readonly IHostApplicationLifetime mLifetime;
 
-        public ConsoleApp(ILogger<ConsoleApp> logger, IHostApplicationLifetime lifetime, ICalculator calculator)
+        public ConsoleApp(ILogger<ConsoleApp> logger, IHostApplicationLifetime lifetime, IEnumerable<ICalculator> calculator)
         {
-            mCalculator = calculator;
+            mCalculator = calculator.OrderBy(operation => operation.OperationOrder);
             mLogger = logger;
             mLifetime = lifetime;
         }
@@ -43,9 +49,16 @@ namespace ConsoleApp.Host
         {
             mLogger.Log(LogLevel.Information, "Starting app...");
             mLogger.Log(LogLevel.Information, "Doing some calculations...");
-            mLogger.Log(LogLevel.Warning, $"The result of adding is {mCalculator.Add(4, 6)}");
-            mLogger.Log(LogLevel.Warning, $"The result of dividing is {mCalculator.Divide(6, 3)}");
-            mLogger.Log(LogLevel.Warning, $"The result of multiplying is {mCalculator.Multiply(5, 5)}");
+            mLogger.Log(LogLevel.Warning, "The result of integer calculations:");
+            foreach (var operation in mCalculator)
+            {
+                Console.WriteLine($"{operation.OperationName} = {operation.Calculate(5, 5)}");
+            }
+            mLogger.Log(LogLevel.Warning, "The result of double calculations:");
+            foreach (var operation in mCalculator)
+            {
+                Console.WriteLine($"{operation.OperationName} = {operation.Calculate(6.7, 3.4)}");
+            }
             mLogger.Log(LogLevel.Information, "All done!");
         }
 

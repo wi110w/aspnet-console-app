@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorService", "CalculatorService\CalculatorService.csproj", "{7DD4DC0E-48B5-471F-8AFD-8C202DAC2D70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp.Host", "ConsoleApp.Host\ConsoleApp.Host.csproj", "{3D2E4D8A-6D1D-45CC-A8C1-DFA521EF6BFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp.Host", "ConsoleApp.Host\ConsoleApp.Host.csproj", "{3D2E4D8A-6D1D-45CC-A8C1-DFA521EF6BFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorServiceTest", "CalculatorServiceTest\CalculatorServiceTest.csproj", "{21152A1E-BAA1-47EE-8A9E-8D8047FCFA11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorServiceTest", "CalculatorServiceTest\CalculatorServiceTest.csproj", "{21152A1E-BAA1-47EE-8A9E-8D8047FCFA11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
