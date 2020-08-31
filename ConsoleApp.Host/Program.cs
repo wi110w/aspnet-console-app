@@ -19,7 +19,11 @@ namespace ConsoleApp.Host
             Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
             // The DI container
             .ConfigureLogging(l => l.AddConsole())
-            .ConfigureServices(s => s.AddSingleton<ICalculator, Calculator>())
+            .ConfigureServices(s => s
+            .AddSingleton<IAdditor, Additor>()
+            .AddSingleton<ISubtractor, Subtractor>()
+            .AddSingleton<IMultiplier, Multiplier>()
+            .AddSingleton<IDivider, Divider>())
             .ConfigureServices(s => s.AddHostedService<ConsoleApp>())
             .Build();
 
@@ -28,13 +32,20 @@ namespace ConsoleApp.Host
 
     public class ConsoleApp: IHostedService
     {
-        readonly ICalculator mCalculator;
+        readonly IAdditor mAdditor;
+        readonly ISubtractor mSubtractor;
+        readonly IMultiplier mMultiplier;
+        readonly IDivider mDivider;
         readonly ILogger<ConsoleApp> mLogger;
         readonly IHostApplicationLifetime mLifetime;
 
-        public ConsoleApp(ILogger<ConsoleApp> logger, IHostApplicationLifetime lifetime, ICalculator calculator)
+        public ConsoleApp(ILogger<ConsoleApp> logger, IHostApplicationLifetime lifetime, IAdditor additor,
+            ISubtractor subtractor, IMultiplier multiplier, IDivider divider)
         {
-            mCalculator = calculator;
+            mAdditor = additor;
+            mSubtractor = subtractor;
+            mMultiplier = multiplier;
+            mDivider = divider;
             mLogger = logger;
             mLifetime = lifetime;
         }
@@ -43,9 +54,10 @@ namespace ConsoleApp.Host
         {
             mLogger.Log(LogLevel.Information, "Starting app...");
             mLogger.Log(LogLevel.Information, "Doing some calculations...");
-            mLogger.Log(LogLevel.Warning, $"The result of adding is {mCalculator.Add(4, 6)}");
-            mLogger.Log(LogLevel.Warning, $"The result of dividing is {mCalculator.Divide(6, 3)}");
-            mLogger.Log(LogLevel.Warning, $"The result of multiplying is {mCalculator.Multiply(5, 5)}");
+            mLogger.Log(LogLevel.Warning, $"The result of adding is {mAdditor.Add(4, 6)}");
+            mLogger.Log(LogLevel.Warning, $"The result of dividing is {mDivider.Divide(6, 3)}");
+            mLogger.Log(LogLevel.Warning, $"The result of multiplying is {mMultiplier.Multiply(5, 5)}");
+            mLogger.Log(LogLevel.Warning, $"The result of subtracting is {mSubtractor.Subtract(6, 8)}");
             mLogger.Log(LogLevel.Information, "All done!");
         }
 
